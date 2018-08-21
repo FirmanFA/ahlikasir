@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ahlikasir.aplikasi.kasironline">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/cash_register_2"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Activity.main.MainActivity"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".Activity.login.LoginActivity"
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.master.MasterActivity" />
+        <activity android:name=".Activity.transaksi.TransaksiActivity" />
+        <activity android:name=".Activity.laporan.LaporanActivity" />
+        <activity
+            android:name=".Activity.master.satuan.SatuanListActivity"
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.master.satuan.SautuanInsertActivity" />
+        <activity
+            android:name=".Activity.master.kelompok.KelompokListActivity"
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.master.kelompok.KelInsertActivity" />
+        <activity
+            android:name=".Activity.master.barang.BarangListActivity"
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.master.barang.BarangInsertActivity" />
+        <activity
+            android:name=".Activity.master.pelanggan.PelangganListActivity"
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.master.pelanggan.PelangganInsertActivity" />
+        <activity
+            android:name=".Activity.transaksi.penjualan.PenjualanActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.transaksi.penjualan.PenjualanCariActivity"
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.transaksi.penjualan.PenjualanBayarActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.transaksi.pembayaran.PembayaranListActivity"
+            android:theme="@style/CustomTheme" />
+        <activity android:name=".Activity.master.toko.TokoActivity" />
+        <activity
+            android:name=".Activity.transaksi.user.UserListActivity"
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.transaksi.user.UserInsertActivity" />
+        <activity
+            android:name=".Activity.login.register.RegisterActivity"
+            android:theme="@style/CustomTheme" />
+        <activity
+            android:name=".Activity.login.ResetPasswordActivity"
+            android:theme="@style/CustomTheme" />
+        <activity android:name=".Activity.transaksi.penjualan.PenjualanCetakActivity" />
+        <activity
+            android:name=".Activity.laporan.LaporanBarangActivity"
+            android:theme="@style/CustomTheme" />
+        <activity
+            android:name=".Activity.laporan.LaporanPelangganActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.laporan.LaporanPenjualanActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.laporan.LaporanPendapatanActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.laporan.LaporanPerfakturActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".Activity.laporan.LaporanPerbarangActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".Activity.transaksi.penjualan.CetakCariActivity" />
+        <activity android:name=".Activity.laporan.ExportExcelActivity"/>
+    </application>
+
+</manifest>

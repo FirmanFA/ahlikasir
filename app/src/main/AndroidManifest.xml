@@ -92,7 +92,7 @@
             android:name=".Activity.laporan.LaporanPenjualanActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Activity.laporan.LaporanPendapatanActivity"
+            android:name=".Activity.laporan.GrafikPendapatanActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activity.laporan.LaporanPerfakturActivity"

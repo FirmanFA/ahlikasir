@@ -9,7 +9,7 @@ import com.ahlikasir.aplikasi.kasironline.R
 import com.ahlikasir.aplikasi.kasironline.Retrofit.Function
 import com.ahlikasir.aplikasi.kasironline.adapter.laporan.LaporanPendapatanAdapter
 import com.ahlikasir.aplikasi.kasironline.model.transaksi.Penjualan
-import kotlinx.android.synthetic.main.activity_laporan_pendapatan.*
+import kotlinx.android.synthetic.main.activity_grafik_pendapatan.*
 import kotlinx.android.synthetic.main.activity_pembayaran_list.*
 import retrofit2.Call
 import retrofit2.Callback

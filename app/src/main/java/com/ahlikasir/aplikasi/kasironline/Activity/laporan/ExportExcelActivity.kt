@@ -21,6 +21,7 @@ import com.ahlikasir.aplikasi.kasironline.model.pelanggan.Pelanggan
 import com.ahlikasir.aplikasi.kasironline.model.toko.Toko
 import com.ahlikasir.aplikasi.kasironline.model.toko.TokoType
 import com.ahlikasir.aplikasi.kasironline.model.toko.TokoUpIn
+import com.ahlikasir.aplikasi.kasironline.model.transaksi.Penjualan
 import com.opencsv.CSVWriter
 import jxl.CellView
 import jxl.Workbook
@@ -31,6 +32,7 @@ import jxl.write.*
 import jxl.write.Number
 import jxl.write.biff.RowsExceededException
 import kotlinx.android.synthetic.main.activity_export_excel.*
+import kotlinx.android.synthetic.main.activity_laporan_penjualan.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -203,11 +205,51 @@ class ExportExcelActivity : AppCompatActivity() {
                                 }
                             })
                         }else if (exportType == "penjualan"){
-                            val judul = arrayOf("No.","")
+                            val judul = arrayOf("No.","Faktur","Tanggal","Total","Bayar","Kembali","Pelanggan","Alamat","Notelp")
+                            setJudul(sheet,judul)
+
+                            val tglawal = intent.getStringExtra("tglawal")
+                            val tglakhir = intent.getStringExtra("tglakhir")
+
+                            request.getPenjualan(encodeEmail,tglawal,tglakhir,token).enqueue(object: Callback<List<Penjualan>>{
+                                override fun onFailure(call: Call<List<Penjualan>>?, t: Throwable?) {
+                                    Function().toast("Something Went Wrong",this@ExportExcelActivity)
+                                }
+
+                                override fun onResponse(call: Call<List<Penjualan>>?, response: Response<List<Penjualan>>?) {
+                                    if(response!!.isSuccessful){
+                                        var no = 1
+                                        for(penjualan in response.body()){
+                                            val totalraw = penjualan.total
+                                            val bayarraw = penjualan.bayar
+                                            val kembaliraw = penjualan.kembali
+                                            val total = NumberFormat.getNumberInstance(Locale.US).format(totalraw.toInt()).toString()
+                                            val bayar = NumberFormat.getNumberInstance(Locale.US).format(bayarraw.toInt()).toString()
+                                            val kembali = NumberFormat.getNumberInstance(Locale.US).format(kembaliraw.toInt()).toString()
+                                            var col = 0
+                                            addLabel(sheet,col++,row,no.toString())
+                                            addLabel(sheet,col++,row,penjualan.faktur)
+                                            addLabel(sheet,col++,row,penjualan.tgljual)
+                                            addLabel(sheet,col++,row,total)
+                                            addLabel(sheet,col++,row,bayar)
+                                            addLabel(sheet,col++,row,kembali)
+                                            addLabel(sheet,col++,row,penjualan.pelanggan)
+                                            addLabel(sheet,col++,row,penjualan.alamat)
+                                            addLabel(sheet,col++,row,penjualan.notelp)
+                                            row++
+                                            no++
+                                        }
+                                        workbook.write()
+                                        workbook.close()
+                                        Function().toast("Export Berhasil",this@ExportExcelActivity)
+                                    }
+                                }
+                            })
+
                         }
 
                     }catch (e:Exception){
-
+                        Function().toast(e.message.toString(),this@ExportExcelActivity)
                     }
                 }
             }

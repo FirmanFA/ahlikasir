@@ -26,6 +26,7 @@ class LaporanPenjualanActivity : AppCompatActivity() {
 
     private lateinit var adapter: LaporanPendapatanAdapter
     private lateinit var calendar: Calendar
+    var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +40,16 @@ class LaporanPenjualanActivity : AppCompatActivity() {
         setTglAkhirPenjualan()
 
         bayar.setOnClickListener {
-            val intent = Intent (this,ExportExcelActivity::class.java)
-            intent.putExtra("exportType","penjualan")
-            startActivity(intent)
 
+            if (count >0){
+                val intent = Intent (this@LaporanPenjualanActivity,ExportExcelActivity::class.java)
+                intent.putExtra("exportType","penjualan")
+                intent.putExtra("tglawal",tTglAwalPenjualan.text.toString())
+                intent.putExtra("tglakhir",tTglAkhirPenjualan.text.toString())
+                startActivity(intent)
+            }else{
+                Function().toast("Tidak Ada Data",this@LaporanPenjualanActivity)
+            }
         }
 
     }
@@ -112,6 +119,8 @@ class LaporanPenjualanActivity : AppCompatActivity() {
                         val jumlahData = "Jumlah Data : " + adapter.itemCount
                         tJumlah.text = jumlahData
                         loadPendapatan()
+                        count = adapter.itemCount
+
                     }
                 }
             }

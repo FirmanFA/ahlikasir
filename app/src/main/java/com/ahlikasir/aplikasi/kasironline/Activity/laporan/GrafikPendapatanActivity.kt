@@ -5,9 +5,6 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
 import com.ahlikasir.aplikasi.kasironline.R
 import com.ahlikasir.aplikasi.kasironline.Retrofit.Function
 import com.ahlikasir.aplikasi.kasironline.adapter.laporan.LaporanPendapatanAdapter
@@ -18,18 +15,17 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import kotlinx.android.synthetic.main.activity_laporan_pendapatan.*
+import kotlinx.android.synthetic.main.activity_grafik_pendapatan.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.net.URLEncoder
-import java.security.KeyStore
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class LaporanPendapatanActivity : AppCompatActivity() {
+class GrafikPendapatanActivity : AppCompatActivity() {
 
     lateinit var adapter:LaporanPendapatanAdapter
     lateinit var calendar:Calendar
@@ -37,7 +33,7 @@ class LaporanPendapatanActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_laporan_pendapatan)
+        setContentView(R.layout.activity_grafik_pendapatan)
 
         this.title = "Laporan Pendapatan"
 
@@ -159,13 +155,13 @@ class LaporanPendapatanActivity : AppCompatActivity() {
 
                 if(response!!.isSuccessful){
                     if(response.body()[0].status == "false"){
-                        Function().toast("Tidak Ada Data",this@LaporanPendapatanActivity)
+                        Function().toast("Tidak Ada Data",this@GrafikPendapatanActivity)
                     }else{
-                        adapter = LaporanPendapatanAdapter(this@LaporanPendapatanActivity,response.body(),{penjualan ->
+                        adapter = LaporanPendapatanAdapter(this@GrafikPendapatanActivity,response.body(),{ penjualan ->
                             deletePenjualan(penjualan.idjual)
                         })
 //                        recUtang.adapter = adapter
-//                        val layoutmanager = LinearLayoutManager(this@LaporanPendapatanActivity)
+//                        val layoutmanager = LinearLayoutManager(this@GrafikPendapatanActivity)
 //                        recUtang.layoutManager = layoutmanager
 //                        recUtang.setHasFixedSize(true)
 //                        adapter.notifyDataSetChanged()
@@ -178,7 +174,7 @@ class LaporanPendapatanActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<Penjualan>>?, t: Throwable?) {
-                val alert = AlertDialog.Builder(this@LaporanPendapatanActivity)
+                val alert = AlertDialog.Builder(this@GrafikPendapatanActivity)
                 alert.setTitle("ERROR")
                 alert.setMessage("terjadi error, coba lagi : "+ t?.message + "\n" + t?.cause)
                 alert.setPositiveButton("RETRY",{dialog, which ->
@@ -223,7 +219,7 @@ class LaporanPendapatanActivity : AppCompatActivity() {
 
     fun setTglAwal(){
         tTglAwal.setOnClickListener {
-            DatePickerDialog(this@LaporanPendapatanActivity,DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            DatePickerDialog(this@GrafikPendapatanActivity,DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                 calendar.set(Calendar.YEAR,year)
                 calendar.set(Calendar.MONTH,month)
                 calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth)
@@ -247,7 +243,7 @@ class LaporanPendapatanActivity : AppCompatActivity() {
 
     fun setTglAkhir(){
         tTglAkhir.setOnClickListener {
-            DatePickerDialog(this@LaporanPendapatanActivity,DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            DatePickerDialog(this@GrafikPendapatanActivity,DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
                 calendar.set(Calendar.YEAR,year)
                 calendar.set(Calendar.MONTH,month)
                 calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth)

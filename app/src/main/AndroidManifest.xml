@@ -3,7 +3,7 @@
     package="com.ahlikasir.aplikasi.kasironline">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -101,7 +101,8 @@
             android:name=".Activity.laporan.LaporanPerbarangActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Activity.transaksi.penjualan.CetakCariActivity" />
-        <activity android:name=".Activity.laporan.ExportExcelActivity"/>
+        <activity android:name=".Activity.laporan.ExportExcelActivity" />
+        <activity android:name=".Activity.laporan.LaporanPendapatanActivity"></activity>
     </application>
 
 </manifest>

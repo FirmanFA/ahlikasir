@@ -89,6 +89,9 @@ class ExportExcelActivity : AppCompatActivity() {
             }else if(exportType == "penjualan"){
                 nama = "Laporan Penjualan"
                 jumlahKolom = 9
+            }else if(exportType == "pendapatan"){
+                nama = "Laporan Pendapatan"
+                jumlahKolom = 9
             }
             exportExc()
         }catch (e:Exception){
@@ -246,6 +249,68 @@ class ExportExcelActivity : AppCompatActivity() {
                                 }
                             })
 
+                        }else if(exportType == "pendapatan"){
+
+
+
+                            val tglawal = intent.getStringExtra("tglawal")
+                            val tglakhir = intent.getStringExtra("tglakhir")
+
+                            request.getPenjualan(encodeEmail,tglawal,tglakhir,token).enqueue(object: Callback<List<Penjualan>>{
+                                override fun onFailure(call: Call<List<Penjualan>>?, t: Throwable?) {
+                                    Function().toast("Something Went Wrong",this@ExportExcelActivity)
+                                }
+
+                                override fun onResponse(call: Call<List<Penjualan>>?, response: Response<List<Penjualan>>?) {
+                                    if(response!!.isSuccessful){
+
+                                        val respon = response
+
+                                        request.getPendapatan(encodeEmail,tglawal, tglakhir, token).enqueue(object: Callback<Penjualan>{
+                                            override fun onFailure(call: Call<Penjualan>?, t: Throwable?) {
+
+                                            }
+
+                                            override fun onResponse(call: Call<Penjualan>?, response: Response<Penjualan>?) {
+                                                addLabel(sheet,row++,"Total Pendapatan : " + response!!.body().pendapatan ,JumlahKolom)
+                                                addLabel(sheet,row++,"Total Pembayaran : "+response.body().bayar,JumlahKolom)
+                                                addLabel(sheet,row++,"Total Kembalian : "+ response.body().kembali,JumlahKolom)
+
+                                                excelNextLine(sheet,2)
+
+                                                val judul = arrayOf("No.","Faktur","Tanggal","Total","Bayar","Kembali","Pelanggan","Alamat","Notelp")
+                                                setJudul(sheet,judul)
+
+                                                var no = 1
+                                                for(penjualan in respon.body()){
+                                                    val totalraw = penjualan.total
+                                                    val bayarraw = penjualan.bayar
+                                                    val kembaliraw = penjualan.kembali
+                                                    val total = NumberFormat.getNumberInstance(Locale.US).format(totalraw.toInt()).toString()
+                                                    val bayar = NumberFormat.getNumberInstance(Locale.US).format(bayarraw.toInt()).toString()
+                                                    val kembali = NumberFormat.getNumberInstance(Locale.US).format(kembaliraw.toInt()).toString()
+                                                    var col = 0
+                                                    addLabel(sheet,col++,row,no.toString())
+                                                    addLabel(sheet,col++,row,penjualan.faktur)
+                                                    addLabel(sheet,col++,row,penjualan.tgljual)
+                                                    addLabel(sheet,col++,row,total)
+                                                    addLabel(sheet,col++,row,bayar)
+                                                    addLabel(sheet,col++,row,kembali)
+                                                    addLabel(sheet,col++,row,penjualan.pelanggan)
+                                                    addLabel(sheet,col++,row,penjualan.alamat)
+                                                    addLabel(sheet,col++,row,penjualan.notelp)
+                                                    row++
+                                                    no++
+                                                }
+                                                workbook.write()
+                                                workbook.close()
+                                                Function().toast("Export Berhasil",this@ExportExcelActivity)
+
+                                            }
+                                        })
+                                    }
+                                }
+                            })
                         }
 
                     }catch (e:Exception){

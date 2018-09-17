@@ -157,7 +157,7 @@ class GrafikPendapatanActivity : AppCompatActivity() {
                     if(response.body()[0].status == "false"){
                         Function().toast("Tidak Ada Data",this@GrafikPendapatanActivity)
                     }else{
-                        adapter = LaporanPendapatanAdapter(this@GrafikPendapatanActivity,response.body(),{ penjualan ->
+                        adapter = LaporanPendapatanAdapter(this@GrafikPendapatanActivity,response.body(),{ },{ penjualan ->
                             deletePenjualan(penjualan.idjual)
                         })
 //                        recUtang.adapter = adapter

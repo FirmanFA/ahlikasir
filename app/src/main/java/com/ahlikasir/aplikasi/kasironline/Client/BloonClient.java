@@ -178,5 +178,8 @@ public interface BloonClient {
     Call<List<Penjualan>> lapPendapatan(@Path("tglawal")String tglawal,@Path("tglakhir")String tglakhir,
                                         @Path("emailuser")String email,@Query(key)String token);
 
+    @DELETE("penjualan/{idjual}")
+    Call<Penjualan> deletePenjualan(@Path("idjual")String idjual,@Header(key) String token);
+
 
 }

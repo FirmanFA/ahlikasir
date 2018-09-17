@@ -42,6 +42,7 @@ class TransaksiActivity : AppCompatActivity() {
         cardView12.setOnClickListener {
             val intent = Intent(this,UserListActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
     }

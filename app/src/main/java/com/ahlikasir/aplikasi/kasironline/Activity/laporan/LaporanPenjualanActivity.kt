@@ -8,6 +8,8 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import com.ahlikasir.aplikasi.kasironline.Activity.transaksi.penjualan.CetakCariActivity
+import com.ahlikasir.aplikasi.kasironline.Activity.transaksi.penjualan.PenjualanCetakActivity
 import com.ahlikasir.aplikasi.kasironline.R
 import com.ahlikasir.aplikasi.kasironline.Retrofit.Function
 import com.ahlikasir.aplikasi.kasironline.adapter.laporan.LaporanPendapatanAdapter
@@ -109,6 +111,17 @@ class LaporanPenjualanActivity : AppCompatActivity() {
                         Function().toast("Tidak Ada Data",this@LaporanPenjualanActivity)
                     }else{
                         adapter = LaporanPendapatanAdapter(this@LaporanPenjualanActivity,response.body(),{penjualan ->
+                            val intent = Intent(this@LaporanPenjualanActivity, PenjualanCetakActivity::class.java)
+                            Function().setSharedPrefrences("strukFaktur",penjualan.faktur,this@LaporanPenjualanActivity)
+                            Function().setSharedPrefrences("strukTanggal",penjualan.tgljual,this@LaporanPenjualanActivity)
+                            Function().setSharedPrefrences("strukPelanggan",penjualan.pelanggan,this@LaporanPenjualanActivity)
+                            Function().setSharedPrefrences("strukBayar",penjualan.bayar,this@LaporanPenjualanActivity)
+                            Function().setSharedPrefrences("strukTotal",penjualan.total,this@LaporanPenjualanActivity)
+                            Function().setSharedPrefrences("strukKembali",penjualan.kembali,this@LaporanPenjualanActivity)
+                            Function().setSharedPrefrences(CetakCariActivity.EXTRA_ADDRESS,"Tidak Ada Perangkat",this@LaporanPenjualanActivity)
+                            Function().setSharedPrefrences(CetakCariActivity.EXTRA_NAME,"Tidak Ada Perangkat",this@LaporanPenjualanActivity)
+                            startActivity(intent)
+                        },{penjualan ->
                             deletePenjualan(penjualan.idjual)
                         })
                         recLapPenjualan.adapter = adapter
@@ -194,7 +207,18 @@ class LaporanPenjualanActivity : AppCompatActivity() {
     }
 
     private fun deletePenjualan(idjual:String) {
+        val request = Function().builder()
+        val token = Function().token(this)
+        request.deletePenjualan(idjual,token).enqueue(object : Callback<Penjualan>{
+            override fun onFailure(call: Call<Penjualan>?, t: Throwable?) {
 
+            }
+
+            override fun onResponse(call: Call<Penjualan>?, response: Response<Penjualan>?) {
+                loadData()
+            }
+
+        })
     }
 
 }

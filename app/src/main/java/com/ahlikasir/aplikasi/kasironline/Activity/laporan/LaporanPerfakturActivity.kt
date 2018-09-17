@@ -44,7 +44,7 @@ class LaporanPerfakturActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<Penjualan>>?, response: Response<List<Penjualan>>?) {
 
                 if(response!!.isSuccessful){
-                    adapter = LaporanPendapatanAdapter(this@LaporanPerfakturActivity,response.body(),{penjualan ->
+                    adapter = LaporanPendapatanAdapter(this@LaporanPerfakturActivity,response.body(),{},{penjualan ->
                         deletePenjualan(penjualan.idjual)
                     })
                     bayarRecycler.adapter = adapter

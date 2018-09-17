@@ -69,7 +69,8 @@
         <activity
             android:name=".Activity.transaksi.pembayaran.PembayaranListActivity"
             android:theme="@style/CustomTheme" />
-        <activity android:name=".Activity.master.toko.TokoActivity" />
+        <activity android:name=".Activity.master.toko.TokoActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Activity.transaksi.user.UserListActivity"
             android:theme="@style/CustomTheme"
@@ -81,10 +82,12 @@
         <activity
             android:name=".Activity.login.ResetPasswordActivity"
             android:theme="@style/CustomTheme" />
-        <activity android:name=".Activity.transaksi.penjualan.PenjualanCetakActivity" />
+        <activity android:name=".Activity.transaksi.penjualan.PenjualanCetakActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Activity.laporan.LaporanBarangActivity"
-            android:theme="@style/CustomTheme" />
+            android:theme="@style/CustomTheme"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".Activity.laporan.LaporanPelangganActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -101,7 +104,8 @@
             android:name=".Activity.laporan.LaporanPerbarangActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Activity.transaksi.penjualan.CetakCariActivity" />
-        <activity android:name=".Activity.laporan.ExportExcelActivity" />
+        <activity android:name=".Activity.laporan.ExportExcelActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Activity.laporan.LaporanPendapatanActivity"></activity>
     </application>
 

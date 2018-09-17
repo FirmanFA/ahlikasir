@@ -2,6 +2,7 @@ package com.ahlikasir.aplikasi.kasironline.adapter.laporan
 
 import android.content.Context
 import android.support.constraint.ConstraintLayout
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ import java.util.*
 /**
  * Created by Firmansyah on 29/06/2018.
  */
-class LaporanPendapatanAdapter(val context: Context, val penjualan: List<Penjualan>, val delClick:(Penjualan)->Unit): RecyclerView.Adapter<LaporanPendapatanAdapter.Holder>(),Filterable {
+class LaporanPendapatanAdapter(val context: Context, val penjualan: List<Penjualan>,val itemClick:(Penjualan)->Unit, val delClick:(Penjualan)->Unit): RecyclerView.Adapter<LaporanPendapatanAdapter.Holder>(),Filterable {
 
     var filteredpenjualan:List<Penjualan>
 
@@ -28,7 +29,7 @@ class LaporanPendapatanAdapter(val context: Context, val penjualan: List<Penjual
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
         val view = LayoutInflater.from(context).inflate(R.layout.laporan_pendapatan_list_layout,parent,false)
-        return Holder(view,delClick)
+        return Holder(view,itemClick,delClick)
     }
 
     override fun onBindViewHolder(holder: Holder?, position: Int) {
@@ -39,13 +40,14 @@ class LaporanPendapatanAdapter(val context: Context, val penjualan: List<Penjual
         return filteredpenjualan.size
     }
 
-    inner class Holder(itemView: View?, val delClick: (Penjualan) -> Unit): RecyclerView.ViewHolder(itemView) {
+    inner class Holder(itemView: View?, val itemClick: (Penjualan) -> Unit, val delClick: (Penjualan) -> Unit): RecyclerView.ViewHolder(itemView) {
 
         val pelanggan = itemView?.findViewById<TextView>(R.id.tbarang)
         val tanggalBeli = itemView?.findViewById<TextView>(R.id.tTgl)
         val faktur = itemView?.findViewById<TextView>(R.id.tFaktur)
         val total = itemView?.findViewById<TextView>(R.id.tTotal)
         val delete = itemView?.findViewById<ConstraintLayout>(R.id.hapusBtn)
+        val openfaktur = itemView?.findViewById<CardView>(R.id.cardview)
 
         fun bindPenjualan(penjualan: Penjualan, context: Context){
             if(penjualan.total == null){
@@ -60,6 +62,7 @@ class LaporanPendapatanAdapter(val context: Context, val penjualan: List<Penjual
             tanggalBeli?.text = penjualan.tgljual
 
             delete?.setOnClickListener { delClick(penjualan) }
+            openfaktur?.setOnClickListener { itemClick(penjualan) }
         }
     }
 

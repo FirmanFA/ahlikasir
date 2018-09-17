@@ -33,7 +33,7 @@ class LaporanActivity : AppCompatActivity() {
         }
 
         cardViewLapPendapatan.setOnClickListener {
-            val intent = Intent(this, GrafikPendapatanActivity::class.java)
+            val intent = Intent(this, LaporanPendapatanActivity::class.java)
             startActivity(intent)
         }
 
@@ -42,9 +42,6 @@ class LaporanActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        cardViewFaktur.setOnClickListener {
-            val intent = Intent(this,LaporanPerfakturActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 }

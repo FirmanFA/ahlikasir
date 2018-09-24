@@ -26,24 +26,9 @@ class CetakCariActivity : AppCompatActivity() {
 
     private var mBluetoothAdapter:BluetoothAdapter? = null
     private lateinit var pairedDevice:Set<BluetoothDevice>
-    lateinit var mmSocket: BluetoothSocket
-    lateinit var mmDevice: BluetoothDevice
     private val ACTION_REQUEST_ENABLE = 1
-
-
-    lateinit var mmOutputStream: OutputStream
-    lateinit var mmInputStream: InputStream
-    lateinit var workerThread: Thread
-
-    lateinit var readBuffer: ByteArray
-    var readBufferPosition: Int = 0
-    var counter: Int = 0
-    @Volatile var stopWorker: Boolean = false
-
-    var arrayList = ArrayList<String>()
     lateinit var list: ListView
     lateinit var adapter: ArrayAdapter<*>
-    var deviceName = ""
 
     companion object{
         val EXTRA_ADDRESS = "device address"
@@ -67,13 +52,6 @@ class CetakCariActivity : AppCompatActivity() {
         }
 
         paireddeviceList()
-
-//        try {
-//            findBT()
-//            openBT()
-//        } catch (e: Exception) {
-//            Toast.makeText(this, "Bluetooth Error", Toast.LENGTH_SHORT).show()
-//        }
 
     }
 
@@ -122,98 +100,4 @@ class CetakCariActivity : AppCompatActivity() {
         }
     }
 
-//    fun findBT(){
-//        try{
-//            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-//
-//            if (mBluetoothAdapter == null) {
-//                Toast.makeText(this, "Tidak ada Bluetooth Adapter", Toast.LENGTH_SHORT).show()
-//            }
-//
-//            if(mBluetoothAdapter.isEnabled){
-//                val intentBt = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-//                startActivityForResult(intentBt,0)
-//            }
-//
-//            var paireddevice = mBluetoothAdapter.bondedDevices
-//
-//            if(paireddevice.size > 0){
-//                for (device in paireddevice) {
-//                    arrayList.add(device.name)
-//                    if (device.name == deviceName) {
-////                        mmDevice = device
-//                        break
-//                    }
-//                }
-//                adapter.notifyDataSetChanged()
-//            }
-//
-//        }catch (e:NullPointerException){
-//            e.printStackTrace()
-//        }catch (e:Exception){
-//            e.printStackTrace()
-//        }
-//    }
-
-
-
-
-//    @Throws(IOException::class)
-//    fun openBT(){
-//        try{
-//            val uuidString = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
-//            mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuidString)
-//            mmSocket.connect()
-//            mmOutputStream = mmSocket.outputStream
-//            mmInputStream = mmSocket.inputStream
-//
-//            beginListenData()
-//
-//            Function().toast("Bluetooth berhasil aktif",this)
-//
-//        }catch (e:Exception){
-//
-//        }
-//    }
-//
-//    fun beginListenData() {
-//        val handler = Handler()
-//
-//        val delimiter = 10;
-//        stopWorker = false
-//        readBufferPosition = 0
-//        readBuffer = ByteArray(1024)
-//
-//        workerThread = Thread(Runnable {
-//            while (!Thread.currentThread().isInterrupted && !stopWorker){
-//
-//                try {
-//                    val bytesAvailable = mmInputStream.available()
-//                    if(bytesAvailable > 0){
-//                        val packetBytes = ByteArray(bytesAvailable)
-//                        mmInputStream.read(packetBytes)
-//                        for (i in 0 until bytesAvailable){
-//                            val b = packetBytes[i]
-//                            if(b.equals(delimiter)){
-//                                val encodeBytes = ByteArray(readBufferPosition)
-//                                System.arraycopy(readBuffer,0,encodeBytes,0,encodeBytes.size)
-//                                val data = String(encodeBytes, charset("US-ASCII"))
-//                                readBufferPosition = 0;
-//
-//                                handler.post({
-//                                    Function().toast(data,this)
-//                                })
-//                            }else{
-//                                readBuffer[readBufferPosition++] = b
-//                            }
-//                        }
-//                    }
-//                } catch (e: IOException) {
-//                    stopWorker = true;
-//                }
-//
-//            }
-//        })
-//        workerThread.start()
-//    }
 }

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.PopupMenu
 import com.ahlikasir.aplikasi.kasironline.R
 import com.ahlikasir.aplikasi.kasironline.Activity.laporan.LaporanActivity
 import com.ahlikasir.aplikasi.kasironline.Activity.login.LoginActivity
@@ -38,6 +40,30 @@ class MainActivity : AppCompatActivity() {
         }
 
         this.title = "Home"
+
+        imageView2.setOnClickListener {v ->
+            val popupmenu = PopupMenu(this,v)
+            popupmenu.setOnMenuItemClickListener {item ->
+                when(item.itemId){
+                    R.id.logout -> {
+                        logout()
+                        true
+                    }
+
+                    R.id.quit -> {
+                        finish()
+                        true
+                    }
+
+                    else -> {
+                        false
+                    }
+                }
+
+            }
+            popupmenu.inflate(R.menu.master_menu)
+            popupmenu.show()
+        }
 
         cardViewMaster.setOnClickListener{
             val request = Function().builder()
@@ -104,28 +130,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
-        val menuinflater = menuInflater
-        menuinflater.inflate(R.menu.master_menu,menu)
-
-        menu?.findItem(R.id.logout)?.actionView
-
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
-        R.id.logout -> {
-            logout()
-            true
-        }
-
-        else ->{
-            super.onOptionsItemSelected(item)
-        }
     }
 
     private fun logout() {

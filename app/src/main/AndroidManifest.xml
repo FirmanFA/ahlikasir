@@ -17,7 +17,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.main.MainActivity"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/CustomTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

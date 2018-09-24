@@ -1,6 +1,7 @@
 package com.ahlikasir.aplikasi.kasironline.Activity.transaksi.penjualan
 
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
@@ -43,7 +44,7 @@ class PenjualanCetakActivity : AppCompatActivity() {
 
     lateinit var readBuffer: ByteArray
     var readBufferPosition: Int = 0
-    var counter: Int = 0
+    var ACTION_REQUEST_ENABLE=1
     @Volatile var stopWorker: Boolean = false
 
     companion object {
@@ -53,63 +54,6 @@ class PenjualanCetakActivity : AppCompatActivity() {
         var m_isConnected: Boolean = false
         lateinit var m_address: String
         lateinit var devicename:String
-//        lateinit var hasil:String
-//        lateinit var device:String
-//        lateinit var mBluetoothAdapter: BluetoothAdapter
-//        lateinit var mmSocket: BluetoothSocket
-//        lateinit var mmDevice: BluetoothDevice
-//
-//        lateinit var mmOutputStream: OutputStream
-//        lateinit var mmInputStream: InputStream
-//        lateinit var workerThread: Thread
-//        var flagready = 0
-//
-//        lateinit var readBuffer: ByteArray
-//        var readBufferPosition: Int = 0
-//        var counter: Int = 0
-//        @Volatile var stopWorker: Boolean = false
-//
-//        fun beginListenData() {
-//            val handler = Handler()
-//
-//            val delimiter = 10;
-//            stopWorker = false
-//            readBufferPosition = 0
-//            readBuffer = ByteArray(1024)
-//
-//            workerThread = Thread(Runnable {
-//                while (!Thread.currentThread().isInterrupted && !stopWorker){
-//
-//                    try {
-//                        val bytesAvailable = mmInputStream.available()
-//                        if(bytesAvailable > 0){
-//                            val packetBytes = ByteArray(bytesAvailable)
-//                            mmInputStream.read(packetBytes)
-//                            for (i in 0 until bytesAvailable){
-//                                val b = packetBytes[i]
-//                                if(b.equals(delimiter)){
-//                                    val encodeBytes = ByteArray(readBufferPosition)
-//                                    System.arraycopy(readBuffer,0,encodeBytes,0,encodeBytes.size)
-//                                    val data = String(encodeBytes, charset("US-ASCII"))
-//                                    readBufferPosition = 0;
-//
-//                                    handler.post({
-//                                        Function().toast(data,this)
-//                                    })
-//                                }else{
-//                                    readBuffer[readBufferPosition++] = b
-//                                }
-//                            }
-//                        }
-//                    } catch (e:IOException) {
-//                        stopWorker = true;
-//                    }
-//
-//                }
-//            })
-//            workerThread.start()
-//        }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,29 +66,17 @@ class PenjualanCetakActivity : AppCompatActivity() {
         devicename = Function().getShared(CetakCariActivity.EXTRA_NAME,"",this)
         ePrinter.setText(devicename)
 
-
-    }
-
-    fun konek(){
-        try {
-            if (m_bluetoothSocket == null || !m_isConnected) {
-                m_bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-                val device: BluetoothDevice = m_bluetoothAdapter.getRemoteDevice(m_address)
-                m_bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(m_myUUID)
-                BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
-                m_bluetoothSocket!!.connect()
-                mmInputStream = m_bluetoothSocket!!.inputStream
-                mmOutputStream = m_bluetoothSocket!!.outputStream
-
-                beginListenData()
-
-                flagready = 1
-
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Function().toast("error saat konek" + e.message,this)
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        if(mBluetoothAdapter == null){
+            Function().toast("Perangkat tidak support bluetooth",this)
+            return
         }
+
+        if(!mBluetoothAdapter!!.isEnabled){
+            val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(intent, ACTION_REQUEST_ENABLE)
+        }
+
     }
 
     class ConnectToDevice(c: Context): AsyncTask<Void, Void, String>() {
@@ -326,46 +258,6 @@ class PenjualanCetakActivity : AppCompatActivity() {
         }
 
     }
-
-    fun findBT(){
-        try{
-            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-
-            if (mBluetoothAdapter == null) {
-                Toast.makeText(this, "Tidak ada Bluetooth Adapter", Toast.LENGTH_SHORT).show()
-            }
-
-            if(mBluetoothAdapter.isEnabled){
-                val intentBt = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                startActivityForResult(intentBt,0)
-            }
-
-            val paireddevice = mBluetoothAdapter.bondedDevices
-
-            if(paireddevice.size > 0){
-                ePrinter.setText("Printer Belum Dipilih")
-                for (device:BluetoothDevice in paireddevice) {
-                    if (device.name == this.device) {
-
-                        mmDevice = device
-                        break
-                    }
-                }
-            }else{
-                ePrinter.setText("Tidak Ada Perangkat")
-            }
-
-        }catch (e:NullPointerException){
-            e.printStackTrace()
-            Function().toast("Error Saat FindBT" + e.message.toString(),this)
-        }catch (e:Exception){
-            e.printStackTrace()
-            Function().toast("Error Saat FindBT" + e.message.toString(),this)
-        }
-    }
-
-
-
 
     @Throws(IOException::class)
     fun openBT(){

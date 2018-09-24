@@ -6,4 +6,8 @@
         android:id="@+id/logout"
         android:title="LOGOUT"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/quit"
+        android:title="QUIT"
+        app:showAsAction="ifRoom"/>
 </menu>

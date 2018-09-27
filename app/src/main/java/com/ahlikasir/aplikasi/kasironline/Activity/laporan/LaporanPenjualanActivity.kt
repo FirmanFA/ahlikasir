@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import com.ahlikasir.aplikasi.kasironline.Activity.transaksi.penjualan.CetakCariActivity
 import com.ahlikasir.aplikasi.kasironline.Activity.transaksi.penjualan.PenjualanCetakActivity
 import com.ahlikasir.aplikasi.kasironline.R
@@ -53,25 +54,22 @@ class LaporanPenjualanActivity : AppCompatActivity() {
                 Function().toast("Tidak Ada Data",this@LaporanPenjualanActivity)
             }
         }
+        eCari.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                adapter.filter.filter(eCari.text.toString())
+                tJumlah.text = "Jumlah Data : " + adapter.itemCount
+            }
+        })
 
     }
-
-//    private fun search(){
-//        eCari.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {
-//
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                adapter.filter.filter(eCari.text.toString())
-//                tJumlah.text = "Jumlah Data : " + adapter.itemCount
-//            }
-//        })
-//    }
 
     fun loadPendapatan(){
         val request = Function().builder()
@@ -109,6 +107,17 @@ class LaporanPenjualanActivity : AppCompatActivity() {
                 if(response!!.isSuccessful){
                     if(response.body()[0].status == "false"){
                         Function().toast("Tidak Ada Data",this@LaporanPenjualanActivity)
+                        adapter = LaporanPendapatanAdapter(this@LaporanPenjualanActivity,response.body(),{},{})
+                        recLapPenjualan.adapter = adapter
+                        val layoutmanager = LinearLayoutManager(this@LaporanPenjualanActivity)
+                        recLapPenjualan.layoutManager = layoutmanager
+                        recLapPenjualan.setHasFixedSize(true)
+                        adapter.notifyDataSetChanged()
+                        val jumlahData = "Jumlah Data : 0"
+                        tJumlah.text = jumlahData
+                        loadPendapatan()
+                        count = adapter.itemCount
+                        recLapPenjualan.visibility = View.INVISIBLE
                     }else{
                         adapter = LaporanPendapatanAdapter(this@LaporanPenjualanActivity,response.body(),{penjualan ->
                             val intent = Intent(this@LaporanPenjualanActivity, PenjualanCetakActivity::class.java)
@@ -124,6 +133,7 @@ class LaporanPenjualanActivity : AppCompatActivity() {
                         },{penjualan ->
                             deletePenjualan(penjualan.idjual)
                         })
+                        recLapPenjualan.visibility = View.VISIBLE
                         recLapPenjualan.adapter = adapter
                         val layoutmanager = LinearLayoutManager(this@LaporanPenjualanActivity)
                         recLapPenjualan.layoutManager = layoutmanager

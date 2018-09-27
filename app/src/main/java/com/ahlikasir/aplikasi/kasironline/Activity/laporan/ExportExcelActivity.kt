@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.AsyncTask
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -64,6 +65,14 @@ class ExportExcelActivity : AppCompatActivity() {
         PERMISSION_STORAGE = arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            }else{
+                ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+            }
+        }
 
 
         path = Environment.getExternalStorageDirectory().toString() + "/Download/"
@@ -250,8 +259,6 @@ class ExportExcelActivity : AppCompatActivity() {
                             })
 
                         }else if(exportType == "pendapatan"){
-
-
 
                             val tglawal = intent.getStringExtra("tglawal")
                             val tglakhir = intent.getStringExtra("tglakhir")

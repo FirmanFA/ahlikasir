@@ -52,8 +52,7 @@ class RegisterActivity : AppCompatActivity() {
                             val alert = AlertDialog.Builder(this@RegisterActivity)
                             alert.setTitle("KONFIRMASI")
                             alert.setMessage("Email konfirmasi telah dikirimkan, harap periksa email untuk regristasi lebih lanjut" + "\n"+
-                                                "NB : Jika Saat Membuka page aktivasi di browser ada peringatan, tekan lanjutkan / proceed." +
-                                                " baca email untuk keterangan lebih lanjut")
+                                                "NB : Jika Saat Membuka page aktivasi di browser ada peringatan, tekan lanjutkan / proceed.")
                             alert.setPositiveButton("OK",{dialog, which ->
                                 val intent = Intent(Intent.ACTION_MAIN)
                                 intent.addCategory(Intent.CATEGORY_APP_EMAIL)

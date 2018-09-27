@@ -34,11 +34,12 @@
                     android:layout_width="125dp"
                     android:layout_height="135dp"
                     android:layout_marginEnd="32dp"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cardViewTransaksi"
-                    app:layout_constraintTop_toBottomOf="@+id/cardViewMaster">
+                    app:layout_constraintStart_toEndOf="@+id/cardViewPanduan"
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewTransaksi">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
@@ -58,7 +59,7 @@
                             app:srcCompat="@drawable/newspaper" />
 
                         <TextView
-                            android:id="@+id/textView111"
+                            android:id="@+id/textViewLaporan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -79,16 +80,70 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/cardViewTransaksi"
+                    android:id="@+id/cardViewPanduan"
                     android:layout_width="125dp"
                     android:layout_height="135dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginStart="32dp"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/cardViewLaporan"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView16">
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewMaster">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:scaleType="center"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/icon" />
+
+                        <TextView
+                            android:id="@+id/textViewPanduan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Panduan"
+                            android:textColor="#174891"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView"
+                            app:layout_constraintVertical_bias="0.51" />
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardViewTransaksi"
+                    android:layout_width="125dp"
+                    android:layout_height="135dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginTop="170dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cardViewLaporan"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardViewMaster"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
@@ -108,7 +163,7 @@
                             app:srcCompat="@drawable/payment_method" />
 
                         <TextView
-                            android:id="@+id/textView111"
+                            android:id="@+id/textViewTransaksi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -126,6 +181,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/imageView"
                             app:layout_constraintVertical_bias="0.51" />
                     </android.support.constraint.ConstraintLayout>
+
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -133,12 +189,14 @@
                     android:layout_width="125dp"
                     android:layout_height="135dp"
                     android:layout_marginBottom="35dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginStart="32dp"
                     android:layout_marginTop="170dp"
                     app:cardCornerRadius="10dp"
-                    app:layout_constraintBottom_toTopOf="@+id/cardViewLaporan"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cardView16"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:layout_constraintBottom_toTopOf="@+id/cardViewPanduan"
+                    app:layout_constraintEnd_toStartOf="@+id/cardViewTransaksi"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <android.support.constraint.ConstraintLayout
@@ -159,7 +217,7 @@
                             app:srcCompat="@drawable/house_outline" />
 
                         <TextView
-                            android:id="@+id/textView111"
+                            android:id="@+id/textViewMaster"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -177,58 +235,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/imageView"
                             app:layout_constraintVertical_bias="0.51" />
                     </android.support.constraint.ConstraintLayout>
-                </android.support.v7.widget.CardView>
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardView16"
-                    android:layout_width="125dp"
-                    android:layout_height="135dp"
-                    android:layout_marginBottom="35dp"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="170dp"
-                    app:cardCornerRadius="10dp"
-                    app:layout_constraintBottom_toTopOf="@+id/cardViewTransaksi"
-                    app:layout_constraintEnd_toStartOf="@+id/cardViewMaster"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <android.support.constraint.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:scaleType="center"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/icon" />
-
-                        <TextView
-                            android:id="@+id/textView111"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="16dp"
-                            android:fontFamily="@font/montserrat"
-                            android:text="Panduan"
-                            android:textColor="#174891"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView"
-                            app:layout_constraintVertical_bias="0.51" />
-                    </android.support.constraint.ConstraintLayout>
                 </android.support.v7.widget.CardView>
 
                 <android.support.constraint.ConstraintLayout
@@ -237,7 +244,7 @@
                     android:layout_height="0dp"
                     android:layout_marginBottom="50dp"
                     android:background="@drawable/backgroundhome_set"
-                    app:layout_constraintBottom_toTopOf="@+id/cardViewTransaksi"
+                    app:layout_constraintBottom_toTopOf="@+id/cardViewPanduan"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -250,7 +257,7 @@
                         android:layout_height="26dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="40dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/montserrat"
                         android:text="0838494389"
                         android:textColor="@android:color/white"

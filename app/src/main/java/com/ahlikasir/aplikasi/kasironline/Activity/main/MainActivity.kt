@@ -13,6 +13,7 @@ import com.ahlikasir.aplikasi.kasironline.R
 import com.ahlikasir.aplikasi.kasironline.Activity.laporan.LaporanActivity
 import com.ahlikasir.aplikasi.kasironline.Activity.login.LoginActivity
 import com.ahlikasir.aplikasi.kasironline.Activity.master.MasterActivity
+import com.ahlikasir.aplikasi.kasironline.Activity.panduan.PanduanActivity
 import com.ahlikasir.aplikasi.kasironline.Activity.transaksi.TransaksiActivity
 import com.ahlikasir.aplikasi.kasironline.Retrofit.Function
 import com.ahlikasir.aplikasi.kasironline.model.toko.TokoUpIn
@@ -63,6 +64,11 @@ class MainActivity : AppCompatActivity() {
             }
             popupmenu.inflate(R.menu.master_menu)
             popupmenu.show()
+        }
+
+        cardViewPanduan.setOnClickListener {
+            val intent = Intent(this,PanduanActivity::class.java)
+            startActivity(intent)
         }
 
         cardViewMaster.setOnClickListener{

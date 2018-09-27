@@ -259,32 +259,6 @@ class PenjualanCetakActivity : AppCompatActivity() {
 
     }
 
-    @Throws(IOException::class)
-    fun openBT(){
-        try{
-            val uuidString = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
-            mmSocket = mmDevice.createRfcommSocketToServiceRecord(uuidString)
-            mmSocket.connect()
-            mmOutputStream = mmSocket.outputStream
-            mmInputStream = mmSocket.inputStream
-
-            beginListenData()
-
-            val c = findViewById<ConstraintLayout>(R.id.simbol)
-            val sdk = android.os.Build.VERSION.SDK_INT
-            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN){
-                c.setBackgroundResource(R.drawable.ovalgreen)
-            }else{
-                c.setBackgroundResource(R.drawable.ovalgreen)
-            }
-            flagready = 1
-
-
-        }catch (e:Exception){
-            Function().toast("Error Saat FindBT" + e.message.toString(),this)
-        }
-    }
-
     fun cari(v:View){
         val intent = Intent(this,CetakCariActivity::class.java)
         startActivity(intent)

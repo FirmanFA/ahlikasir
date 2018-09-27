@@ -363,6 +363,7 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
 
         }
 
+
         bayar.setOnClickListener {
 
             if(adapter.itemCount <= 0){
@@ -375,6 +376,7 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
                 Function().setSharedPrefrences("strukTanggal",tanggal.text.toString(),this)
                 Function().setSharedPrefrences("strukPelanggan",pelangganJual.text.toString(),this)
                 startActivity(intent)
+                finish()
             }
 
 

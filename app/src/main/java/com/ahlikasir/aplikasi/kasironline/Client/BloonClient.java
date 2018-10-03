@@ -2,6 +2,8 @@ package com.ahlikasir.aplikasi.kasironline.Client;
 
 import java.util.List;
 
+import com.ahlikasir.aplikasi.kasironline.model.login.Data;
+import com.ahlikasir.aplikasi.kasironline.model.login.EmailValid;
 import com.ahlikasir.aplikasi.kasironline.model.login.Login;
 import com.ahlikasir.aplikasi.kasironline.model.barang.Barang;
 import com.ahlikasir.aplikasi.kasironline.model.kelompok.Kelompok;
@@ -15,6 +17,8 @@ import com.ahlikasir.aplikasi.kasironline.model.transaksi.Pembayaran;
 import com.ahlikasir.aplikasi.kasironline.model.transaksi.Penjualan;
 import com.ahlikasir.aplikasi.kasironline.model.transaksi.PenjualanPelanggan;
 import com.ahlikasir.aplikasi.kasironline.model.transaksi.User;
+
+import kotlin.ExtensionFunctionType;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -148,7 +152,7 @@ public interface BloonClient {
     @DELETE("user/{id}")
     Call<User> deleteUser(@Path("id")String id,@Header(key)String token);
 
-    @GET("user/{email}/{id]")
+    @GET("user/{email}/{id}")
     Call<User> getUserById(@Path("email")String email, @Path("id")String id,@Query(key)String token);
 
     @POST("user")
@@ -180,6 +184,9 @@ public interface BloonClient {
 
     @DELETE("penjualan/{idjual}")
     Call<Penjualan> deletePenjualan(@Path("idjual")String idjual,@Header(key) String token);
+
+    @GET("{email}")
+    Call<EmailValid> emailValidasi(@Path("email")String email);
 
 
 }

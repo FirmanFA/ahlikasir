@@ -32,6 +32,21 @@ class Function {
         return client
     }
 
+    fun builderEmail(): BloonClient {
+        val http = "http://emailapi.com/api/219b77b3/"
+        val okhttpClientBuilder = OkHttpClient.Builder()
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+        okhttpClientBuilder.addInterceptor(logging)
+        val builder = Retrofit.Builder().baseUrl(http)
+                .addConverterFactory(GsonConverterFactory.create()).client(okhttpClientBuilder.build())
+
+        val retrofit = builder.build()
+
+        val client: BloonClient = retrofit.create(BloonClient::class.java)
+        return client
+    }
+
     fun init(context: Context){
         sharedPrefrences = context.getSharedPreferences("coba",Context.MODE_PRIVATE)
     }

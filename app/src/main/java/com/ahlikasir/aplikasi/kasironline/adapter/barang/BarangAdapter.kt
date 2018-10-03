@@ -47,7 +47,9 @@ class BarangAdapter(val context: Context, val barang: List<Barang>, val delClick
                 }else{
                     val filteredlist = ArrayList<Barang>()
                     for(row in barang){
-                        if(row.barang.toLowerCase().contains(charString.toLowerCase())){
+                        val koderaw = row.idbarang.toLowerCase()
+                        val kode = "BR"+koderaw
+                        if(row.barang.toLowerCase().contains(charString.toLowerCase()) || kode.contains(charString.toLowerCase())){
                             filteredlist.add(row)
                         }
                     }
@@ -72,6 +74,7 @@ class BarangAdapter(val context: Context, val barang: List<Barang>, val delClick
         val harga2 = itemView?.findViewById<TextView>(R.id.harga2)
         val del = itemView?.findViewById<ConstraintLayout>(R.id.wHapusBarang)
         val update = itemView?.findViewById<ConstraintLayout>(R.id.wUbahBarang)
+        val kodebarang = itemView?.findViewById<TextView>(R.id.stokLap)
 
         fun bindBarang(barang:Barang,context: Context){
             val numberformat1 = NumberFormat.getNumberInstance(Locale.US).format(barang.hargasatuan1.toInt()).toString()
@@ -79,6 +82,7 @@ class BarangAdapter(val context: Context, val barang: List<Barang>, val delClick
             namabarang?.text = barang.barang
             harga1?.text = "Rp. $numberformat1/${barang.satuan1}"
             harga2?.text = "Rp. $numberformat2/${barang.satuan2}"
+            kodebarang?.text = "KODE : BR"+barang.idbarang
             del?.setOnClickListener { delClick(barang) }
             update?.setOnClickListener { updateClick(barang) }
         }

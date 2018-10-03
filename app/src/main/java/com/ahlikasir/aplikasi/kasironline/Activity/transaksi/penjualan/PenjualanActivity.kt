@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.widget.*
 import com.ahlikasir.aplikasi.kasironline.R
 import com.ahlikasir.aplikasi.kasironline.Retrofit.Function
@@ -26,7 +25,6 @@ import java.net.URLEncoder
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener {
 
@@ -34,10 +32,7 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
     lateinit var adapter:PenjualanAdapter
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        calendar.set(Calendar.YEAR,year)
-        calendar.set(Calendar.MONTH,month)
-        calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth)
-        updateLabel()
+        Toast.makeText(this,"Tanggal tidak bisa diubah",Toast.LENGTH_SHORT).show()
     }
 
     private fun updateLabel() {
@@ -90,7 +85,7 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
         val keterangan = findViewById<EditText>(R.id.etKeteranganJual)
         val idbarang = Function().getShared("idbarang","",this)
         val idpelanggan = Function().getShared("idpelanggan","",this)
-        val indexSatuan = spinnerJualSatuan.selectedItemPosition
+//        val indexSatuan = spinnerJualSatuan.selectedItemPosition
         val request = Function().builder()
         val token = Function().token(this)
         val email = Function().email(this)
@@ -98,10 +93,10 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
         if(noFaktur.text.toString() == "" || barang.text.toString() == "kosong" || harga.text.toString() == ""){
             Toast.makeText(this,"Ada Data Yang Kosong",Toast.LENGTH_LONG).show()
         }else if(pelangganJual.text.toString() == "kosong"){
-            val satuanJual = spinnerJualSatuan.selectedItem.toString()
+            val satuanJual = tvSatuanJual.text.toString()
             val hargaJual = (harga.text.toString().toInt() * jumlah.text.toString().toDouble()).toString()
             val isiPenjualan = Penjualan(idbarang,jumlah.text.toString(),hargaJual,keterangan.text.toString(),satuanJual,
-                    "",faktur.text.toString(),tanggal.text.toString(),"0","0","0",email,indexSatuan.toString())
+                    "",faktur.text.toString(),tanggal.text.toString(),"0","0","0",email,"1")
             request.penjualan(isiPenjualan,token).enqueue(object: Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                     val alert = AlertDialog.Builder(this@PenjualanActivity)
@@ -121,10 +116,10 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
                 }
             })
         }else{
-            val satuanJual = spinnerJualSatuan.selectedItem.toString()
+            val satuanJual = tvSatuanJual.text.toString()
             val hargaJual = (harga.text.toString().toInt() * jumlah.text.toString().toDouble()).toString()
             val isiPenjualan = Penjualan(idbarang,jumlah.text.toString(),hargaJual,keterangan.text.toString(),satuanJual,
-                    idpelanggan,faktur.text.toString(),tanggal.text.toString(),"0","0","0",email,indexSatuan.toString())
+                    idpelanggan,faktur.text.toString(),tanggal.text.toString(),"0","0","0",email,"1")
             request.penjualan(isiPenjualan,token).enqueue(object: Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                     val alert = AlertDialog.Builder(this@PenjualanActivity)
@@ -198,11 +193,10 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
         val request = Function().builder()
         val token = Function().token(this)
         val alert = AlertDialog.Builder(this@PenjualanActivity)
-        val index = spinnerJualSatuan.selectedItemPosition.toString()
         alert.setTitle("DELETE")
         alert.setMessage("Are You Sure?")
         alert.setPositiveButton("YES",{dialog, _ ->
-            request.deleteDetailJual(penjualan.iddetailjual,index,token).enqueue(object : Callback<ResponseBody>{
+            request.deleteDetailJual(penjualan.iddetailjual,"1",token).enqueue(object : Callback<ResponseBody>{
                 override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                     val alert = AlertDialog.Builder(this@PenjualanActivity)
                     alert.setTitle("ERROR")
@@ -252,43 +246,55 @@ class PenjualanActivity : AppCompatActivity(),DatePickerDialog.OnDateSetListener
 
                 override fun onResponse(call: Call<Satuan>?, response: Response<Satuan>?) {
                     if(response!!.isSuccessful){
-                        val listForSpinner = ArrayList<String>()
+//                        val listForSpinner = ArrayList<String>()
+//
+//                        listForSpinner.clear()
+//                        listForSpinner.add(response.body().satuan1)
+//                        listForSpinner.add(response.body().satuan2)
+//
+//                        val adapter = ArrayAdapter<String>(this@PenjualanActivity,android.R.layout.simple_spinner_item,listForSpinner)
+//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                        spinnerJualSatuan.adapter = adapter
+//                        spinnerJualSatuan.setSelection(1)
+                        tvSatuanJual.text = response.body().satuan2
+                        request.getBarangById(email,idbarang,token).enqueue(object: Callback<Barang>{
+                            override fun onResponse(call: Call<Barang>?, response: Response<Barang>?) {
+                                harga.setText(response!!.body().hargasatuan2)
+                            }
 
-                        listForSpinner.clear()
-                        listForSpinner.add(response.body().satuan1)
-                        listForSpinner.add(response.body().satuan2)
+                            override fun onFailure(call: Call<Barang>?, t: Throwable?) {
 
-                        val adapter = ArrayAdapter<String>(this@PenjualanActivity,android.R.layout.simple_spinner_item,listForSpinner)
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        spinnerJualSatuan.adapter = adapter
-                        spinnerJualSatuan.setSelection(1)
+                            }
+
+                        })
+
                     }
                 }
             })
         }
 
-        spinnerJualSatuan.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                request.getBarangById(email,idbarang,token).enqueue(object: Callback<Barang>{
-                    override fun onResponse(call: Call<Barang>?, response: Response<Barang>?) {
-                        if (position == 0){
-                            harga.setText(response!!.body().hargasatuan1)
-                        }else{
-                            harga.setText(response!!.body().hargasatuan2)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Barang>?, t: Throwable?) {
-
-                    }
-
-                })
-            }
-        }
+//        spinnerJualSatuan.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//            }
+//
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                request.getBarangById(email,idbarang,token).enqueue(object: Callback<Barang>{
+//                    override fun onResponse(call: Call<Barang>?, response: Response<Barang>?) {
+//                        if (position == 0){
+//                            harga.setText(response!!.body().hargasatuan1)
+//                        }else{
+//                            harga.setText(response!!.body().hargasatuan2)
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<Barang>?, t: Throwable?) {
+//
+//                    }
+//
+//                })
+//            }
+//        }
     }
 
     private fun eventHandler(){

@@ -38,7 +38,7 @@
                     android:id="@+id/cap2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Promo Kedua"
+                    android:hint="Tag Line 2"
                     android:maxLength="30" />
 
                 <TextView
@@ -68,7 +68,7 @@
                     android:id="@+id/cap1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Promo Pertama"
+                    android:hint="Tag Line 1"
                     android:maxLength="30" />
 
                 <TextView
@@ -98,6 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nomor Telpon"
+                    android:inputType="number"
                     android:maxLength="30" />
 
                 <TextView

@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.Toast
 import com.ahlikasir.aplikasi.kasironline.R
 import com.ahlikasir.aplikasi.kasironline.Retrofit.Function
+import com.ahlikasir.aplikasi.kasironline.model.login.Data
+import com.ahlikasir.aplikasi.kasironline.model.login.EmailValid
 import com.ahlikasir.aplikasi.kasironline.model.login.Login
 import com.ahlikasir.aplikasi.kasironline.model.login.Register
 import kotlinx.android.synthetic.main.activity_register.*
@@ -40,40 +42,59 @@ class RegisterActivity : AppCompatActivity() {
                 hideProgressBar()
                 Toast.makeText(this@RegisterActivity,"password tidak cocok", Toast.LENGTH_SHORT).show()
             }else{
-                val request = Function().builder()
-                val daftar = Register(email.text.toString(),notelp.text.toString(),password.text.toString())
-                request.register(daftar).enqueue(object: Callback<Login> {
-                    override fun onResponse(call: Call<Login>?, response: Response<Login>?) {
-                        if(response!!.body().status == "used"){
-                            hideProgressBar()
-                            Toast.makeText(this@RegisterActivity,"email sudah dipakai", Toast.LENGTH_SHORT).show()
-                        }else{
-                            hideProgressBar()
-                            val alert = AlertDialog.Builder(this@RegisterActivity)
-                            alert.setTitle("KONFIRMASI")
-                            alert.setMessage("Email konfirmasi telah dikirimkan, harap periksa email untuk regristasi lebih lanjut" + "\n"+
-                                                "NB : Jika Saat Membuka page aktivasi di browser ada peringatan, tekan lanjutkan / proceed.")
-                            alert.setPositiveButton("OK",{dialog, which ->
-                                val intent = Intent(Intent.ACTION_MAIN)
-                                intent.addCategory(Intent.CATEGORY_APP_EMAIL)
-                                try{
-                                    startActivity(intent)
-                                    dialog.dismiss()
-                                    finish()
-                                }catch (e:Exception){
-                                    intent.addCategory(Intent.CATEGORY_APP_BROWSER)
-                                    startActivity(intent)
-                                    dialog.dismiss()
-                                    finish()
-                                }
-                            })
-                            alert.show()
+                //cek email validasi
+                val reqemailvalidation = Function().builderEmail()
+                val emailvalid = email.text.toString()
+                reqemailvalidation.emailValidasi(emailvalid).enqueue(object : Callback<EmailValid>{
+                    override fun onResponse(call: Call<EmailValid>?, response: Response<EmailValid>?) {
+                        if(response!!.isSuccessful){
+                            if(response.body().data.status){
+                                val request = Function().builder()
+                                val daftar = Register(email.text.toString(),notelp.text.toString(),password.text.toString())
+                                request.register(daftar).enqueue(object: Callback<Login> {
+                                    override fun onResponse(call: Call<Login>?, response: Response<Login>?) {
+                                        if(response!!.body().status == "used"){
+                                            hideProgressBar()
+                                            Toast.makeText(this@RegisterActivity,"email sudah dipakai", Toast.LENGTH_SHORT).show()
+                                        }else{
+                                            hideProgressBar()
+                                            val alert = AlertDialog.Builder(this@RegisterActivity)
+                                            alert.setTitle("KONFIRMASI")
+                                            alert.setMessage("Email konfirmasi telah dikirimkan, harap periksa email untuk regristasi lebih lanjut" + "\n"+
+                                                    "NB : Jika Saat Membuka page aktivasi di browser ada peringatan, tekan lanjutkan / proceed.")
+                                            alert.setPositiveButton("OK",{dialog, which ->
+                                                val intent = Intent(Intent.ACTION_MAIN)
+                                                intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+                                                try{
+                                                    startActivity(intent)
+                                                    dialog.dismiss()
+                                                    finish()
+                                                }catch (e:Exception){
+                                                    intent.addCategory(Intent.CATEGORY_APP_BROWSER)
+                                                    startActivity(intent)
+                                                    dialog.dismiss()
+                                                    finish()
+                                                }
+                                            })
+                                            alert.show()
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<Login>?, t: Throwable?) {
+                                        hideProgressBar()
+                                        Toast.makeText(this@RegisterActivity,"periksa koneksi anda", Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+
+                            }else{
+                                Function().toast("Email tidak valid",this@RegisterActivity)
+                                hideProgressBar()
+                            }
                         }
                     }
 
-                    override fun onFailure(call: Call<Login>?, t: Throwable?) {
-                        hideProgressBar()
-                        Toast.makeText(this@RegisterActivity,"periksa koneksi anda", Toast.LENGTH_SHORT).show()
+                    override fun onFailure(call: Call<EmailValid>?, t: Throwable?) {
+
                     }
                 })
             }
